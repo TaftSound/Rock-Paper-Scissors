@@ -14,7 +14,6 @@ function computerPlay()
             break;
     }
 }
-let numAttempts = -1;
 
 function playerInput()
 {
@@ -26,33 +25,66 @@ function playerInput()
         alert("Please make a valid selection!");
         ++numAttempts;
         if (numAttempts < 5) { return playerInput(); }
-        else {return "Too many failed attempts"};
+        else { resetRecursion = true; return };
     }
     let firstLetterCap = input.charAt(0).toUpperCase();
     input = firstLetterCap + input.substring(1);
+    resetRecursion = false;
     numAttempts = -1;
     return input;
 }
 
-function playRound( computerSelection, playerSelection )
+function playRound()
 {
-    let comp = computerSelection();
-    let player = playerSelection();
+    let comp = computerPlay();
+    let player = playerInput();
+    while (resetRecursion)
+    {
+        numAttempts = -1;
+        player = playerInput();
+    }
     if ( comp === player )
     {
-        return `Computer: ${comp}  Player: ${player}\n The game is a tie!`;
+        ++playerScore;
+        ++compScore;
+        return `Computer: ${comp}  Player: ${player}\n This round is a tie!`;
     }
     else if ( (comp === "Rock") && (player === "Scissors")
             || (comp === "Scissors") && (player === "Paper")
             || (comp === "Paper") && (player === "Rock") )
     {
-            return `Computer: ${comp}  Player: ${player}\n You lose! ${comp} beats ${player}`;
+            ++compScore;
+            return `Computer: ${comp}  Player: ${player}\n You lose this round! ${comp} beats ${player}`;
     }
     else
     {
-        return `Computer: ${comp}  Player: ${player}\n You win! ${player} beats ${comp}`;
+        ++playerScore;
+        return `Computer: ${comp}  Player: ${player}\n You win this round! ${player} beats ${comp}`;
     }
 }
 
-let round = playRound( computerPlay(), playerInput() );
-console.log(round);
+let numAttempts = -1;
+let compScore = 0;
+let playerScore = 0;
+let resetRecursion = false;
+
+function game() 
+{
+    for ( let i = 0; i < 5; i++ )
+    {
+        console.log(playRound());
+    }
+    console.log(`Computer Score: ${compScore} Player Score: ${playerScore}\n`);
+    if ( compScore > playerScore )
+    {
+        console.log("You lose the game!");
+    }
+    else if ( compScore < playerScore )
+    {
+        console.log("You win the game!");
+    }
+    else { console.log("The game ends in a tie!"); }
+}
+
+
+game();
