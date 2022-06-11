@@ -86,5 +86,4 @@ function game() {
     else { console.log("The game ends in a tie!"); }
 }
 
-
 game();
