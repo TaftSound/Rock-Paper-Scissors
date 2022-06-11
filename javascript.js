@@ -14,18 +14,37 @@ function computerPlay()
             break;
     }
 }
+let numAttempts = -1;
+
+function playerInput()
+{
+    let input = prompt("Rock, Paper, or Scissors?").toLowerCase();
+    if ( (input !== "rock")
+        && (input !== "scissors")
+        && (input !== "paper") )
+    {
+        alert("Please make a valid selection!");
+        ++numAttempts;
+        if (numAttempts < 5) { return playerInput(); }
+        else {return "Too many failed attempts"};
+    }
+    let firstLetterCap = input.charAt(0).toUpperCase();
+    input = firstLetterCap + input.substring(1);
+    numAttempts = -1;
+    return input;
+}
 
 function playRound( computerSelection, playerSelection )
 {
-    let comp = computerSelection.toUpperCase();
-    let player = playerSelection.toUpperCase();
+    let comp = computerSelection();
+    let player = playerSelection();
     if ( comp === player )
     {
         return `Computer: ${comp}  Player: ${player}\n The game is a tie!`;
     }
-    else if ( (comp === "ROCK") && (player === "SCISSORS")
-            || (comp === "SCISSORS") && (player === "PAPER")
-            || (comp === "PAPER") && (player === "ROCK") )
+    else if ( (comp === "Rock") && (player === "Scissors")
+            || (comp === "Scissors") && (player === "Paper")
+            || (comp === "Paper") && (player === "Rock") )
     {
             return `Computer: ${comp}  Player: ${player}\n You lose! ${comp} beats ${player}`;
     }
@@ -35,7 +54,5 @@ function playRound( computerSelection, playerSelection )
     }
 }
 
-let computerSelection = computerPlay();
-console.log(computerSelection);
-let result = playRound(computerSelection, "PAPER");
-console.log(result);
+let round = playRound( computerPlay(), playerInput() );
+console.log(round);
