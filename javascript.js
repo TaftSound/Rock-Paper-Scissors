@@ -23,15 +23,9 @@ function playRound( computerSelection, playerSelection )
     {
         return `Computer: ${comp}  Player: ${player}\n The game is a tie!`;
     }
-    else if ( (comp === "ROCK") && (player === "SCISSORS") )
-    {
-            return `Computer: ${comp}  Player: ${player}\n You lose! ${comp} beats ${player}`;
-    }
-    else if ( (comp === "SCISSORS") && (player === "PAPER") )
-    {
-            return `Computer: ${comp}  Player: ${player}\n You lose! ${comp} beats ${player}`;
-    }
-    else if ( (comp === "PAPER") && (player === "ROCK") )
+    else if ( (comp === "ROCK") && (player === "SCISSORS")
+            || (comp === "SCISSORS") && (player === "PAPER")
+            || (comp === "PAPER") && (player === "ROCK") )
     {
             return `Computer: ${comp}  Player: ${player}\n You lose! ${comp} beats ${player}`;
     }
