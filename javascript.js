@@ -1,7 +1,7 @@
 // Declare global variables
-let numAttempts = -1;
+// let numAttempts = -1;
 
-let resetRecursion = false;
+// let resetRecursion = false;
 
 // Generates computer's move choice
 function computerPlay() {
@@ -46,29 +46,29 @@ function capFirstLetter(input) {
 // }
 
 // Function to manage a single round of play and return results
-function playRound() {
-    let comp = computerPlay();
-    let player = playerInput();
-    while (resetRecursion) {
-        numAttempts = -1;
-        player = playerInput();
-    }
-    if ( comp === player ) {
-        ++playerScore;
-        ++compScore;
-        return `Computer: ${comp}  Player: ${player}\n This round is a tie!`;
-    }
-    else if ( (comp === "Rock") && (player === "Scissors")
-            || (comp === "Scissors") && (player === "Paper")
-            || (comp === "Paper") && (player === "Rock") ) {
-            ++compScore;
-            return `Computer: ${comp}  Player: ${player}\n You lose this round! ${comp} beats ${player}`;
-    }
-    else {
-        ++playerScore;
-        return `Computer: ${comp}  Player: ${player}\n You win this round! ${player} beats ${comp}`;
-    }
-}
+// function playRound() {
+//     let comp = computerPlay();
+//     let player = playerChoice;
+    // while (resetRecursion) {
+    //     numAttempts = -1;
+    //     player = playerInput();
+    // }
+//     if ( comp === player ) {
+//         ++playerScore;
+//         ++computerScore;
+//         return `Computer: ${comp}  Player: ${player}\n This round is a tie!`;
+//     }
+//     else if ( (comp === "Rock") && (player === "Scissors")
+//             || (comp === "Scissors") && (player === "Paper")
+//             || (comp === "Paper") && (player === "Rock") ) {
+//             ++compScore;
+//             return `Computer: ${comp}  Player: ${player}\n You lose this round! ${comp} beats ${player}`;
+//     }
+//     else {
+//         ++playerScore;
+//         return `Computer: ${comp}  Player: ${player}\n You win this round! ${player} beats ${comp}`;
+//     }
+// }
 
 // create gameplay loop, add to global score, and print results after five matches
 function game() {
@@ -94,19 +94,61 @@ const sectionTwo = document.querySelector(".two");
 const sectionThree = document.querySelector(".three");
 let playerScore = 0;
 let computerScore = 0;
+let playerChoice = "";
+let computerChoice = "";
 let roundMessage = "";
+let roundNumber = 1;
+let nextRoundButton;
 
 beginButton.classList.add('fade-in');
 
 beginButton.addEventListener('click', () => {
     removeItemMedium(beginButton);
-    setTimeout( () => { playGame() }, 500 );
+    setTimeout( () => { playRound() }, 500 );
 });
 
-function playGame() {
-    roundMessage = createRoundMessage(1);
-    sectionOne.appendChild(roundMessage);
-    roundMessage.classList.add('fade-in');
+
+
+function playRound() {
+    roundMessage = createRoundMessage(roundNumber);
+    setTimeout( () => {
+        sectionOne.appendChild(roundMessage);
+        roundMessage.classList.add('fade-in');
+    }, 250 );
+    setTimeout( () => { 
+        removeItemSlow(roundMessage); 
+    }, 750 );
+    setTimeout( () => {
+        createGameRound();
+    }, 2500 );
+}
+
+function calculateWinner() {
+    let comp = computerPlay();
+    let player = playerChoice;
+    let winnerMessage = "";
+    if ( comp === player ) {
+        ++playerScore;
+        ++computerScore;
+        winnerMessage = createGameMessage("This round is a tie!");
+    }
+    else if ( (comp === "Rock") && (player === "Scissors")
+            || (comp === "Scissors") && (player === "Paper")
+            || (comp === "Paper") && (player === "Rock") ) {
+        ++computerScore;
+        winnerMessage = createGameMessage("You lose this round!");
+    }
+    else {
+        ++playerScore;
+        winnerMessage = createGameMessage("You win this round!");
+    }
+    setTimeout( () => {
+        sectionOne.appendChild(winnerMessage);
+        winnerMessage.classList.add('fade-in');
+    }, 750 );
+    setTimeout( () => { 
+        removeItemMedium(winnerMessage) 
+    }, 1750 );
 }
 
 // function playGame() {
@@ -129,11 +171,54 @@ function playGame() {
 //     }
 // }
 
+function createGameRound() {
+    const buttonGroup = document.createElement('div');
+    const rockButton = createButton('Rock');
+    const paperButton = createButton('Paper');
+    const scissorsButton = createButton('Scissors');
+    const playMessage = createGameMessage('Make Your Move:');
+    let choice = "";
+
+    sectionTwo.appendChild(buttonGroup);
+    buttonGroup.appendChild(rockButton);
+    rockButton.classList.add('fade-in');
+    buttonGroup.appendChild(paperButton);
+    paperButton.classList.add('fade-in');
+    buttonGroup.appendChild(scissorsButton);
+    scissorsButton.classList.add('fade-in');
+    buttonGroup.setAttribute('id', 'button-group');
+    sectionOne.appendChild(playMessage);
+    playMessage.classList.add('fade-in');
 
 
+    rockButton.addEventListener('click', () => { 
+        removeButtonGroup(rockButton, paperButton, scissorsButton);
+        removeItemMedium(playMessage);
+        playerChoice = "Rock";
+        calculateWinner();
+    });
+    paperButton.addEventListener('click', () => { 
+        removeButtonGroup(paperButton, rockButton, scissorsButton);
+        removeItemMedium(playMessage);
+        playerChoice = "Paper";
+        calculateWinner();
+    });
+    scissorsButton.addEventListener('click', () => { 
+        removeButtonGroup(scissorsButton, paperButton, rockButton);
+        removeItemMedium(playMessage);
+        playerChoice = "Scissors";
+        calculateWinner();
+    });
+}
 
-// Create's new round message
-// ============================================================
+// function displayRoundWinner() {
+
+// }
+
+// function createNewRoundButton() {
+//     setTimeout( () => {}, 550 )
+// }
+
 function createRoundMessage(number) {
     const roundAlertHeader = document.createElement('h2');
     roundAlertHeader.setAttribute('class', 'message');
@@ -149,50 +234,11 @@ function createGameMessage(message) {
     return gameMessage;
 }
 
-// Create button choice group
-// ============================================================
 function createButton(id) {
     const button = document.createElement('button');
     button.setAttribute('id', id.toLowerCase());
     button.innerText = id;
     return button;
-}
-
-function createGameRound() {
-    const cardSectionTwo = document.querySelector('.two');
-    const buttonGroup = document.createElement('div');
-    const rockButton = createButton('Rock');
-    const paperButton = createButton('Paper');
-    const scissorsButton = createButton('Scissors');
-    const playMessage = createGameMessage('Make Your Move:');
-    let choice = "";
-
-    cardSectionTwo.appendChild(buttonGroup);
-    buttonGroup.appendChild(rockButton);
-    rockButton.classList.add('fade-in');
-    buttonGroup.appendChild(paperButton);
-    paperButton.classList.add('fade-in');
-    buttonGroup.appendChild(scissorsButton);
-    scissorsButton.classList.add('fade-in');
-    buttonGroup.setAttribute('id', 'button-group');
-    sectionOne.appendChild(playMessage);
-    playMessage.classList.add('fade-in');
-
-
-    rockButton.addEventListener('click', () => { 
-        removeButtonGroup(rockButton, paperButton, scissorsButton);
-        choice = "rock"; 
-    });
-    paperButton.addEventListener('click', () => { 
-        removeButtonGroup(paperButton, rockButton, scissorsButton);
-        choice = "paper";
-    });
-    scissorsButton.addEventListener('click', () => { 
-        removeButtonGroup(scissorsButton, paperButton, rockButton);
-        choice = "scissors";
-    });
-        removeItemMedium(playMessage);
-        return choice;
 }
 
 function removeButtonGroup(buttonClicked, buttonTwo, buttonThree) {
