@@ -120,7 +120,7 @@ function playRound() {
     }, 1100 );
     setTimeout( () => {
         createGameRound();
-    }, 2000 );
+    }, 1850 );
 }
 
 // function playGame() {
@@ -167,19 +167,19 @@ function createGameRound() {
         removeButtonGroup(rockButton, paperButton, scissorsButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Rock";
-        setTimeout( () => { calculateWinner(); }, 1000);
+        setTimeout( () => { calculateWinner(); }, 750);
     });
     paperButton.addEventListener('click', () => { 
         removeButtonGroup(paperButton, rockButton, scissorsButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Paper";
-        setTimeout( () => { calculateWinner(); }, 1000);
+        setTimeout( () => { calculateWinner(); }, 750);
     });
     scissorsButton.addEventListener('click', () => { 
         removeButtonGroup(scissorsButton, paperButton, rockButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Scissors";
-        setTimeout( () => { calculateWinner(); }, 1000);
+        setTimeout( () => { calculateWinner(); }, 750);
     });
 }
 
@@ -210,14 +210,14 @@ function calculateWinner() {
 
     playerChoiceMessage.classList.add('fade-in');
     // setTimeout( () => { playerChoiceMessage.classList.add('fade-in') }, 50);
-    setTimeout( () => { computerChoiceMessage.classList.add('fade-in') }, 1250);
-    setTimeout( () => { winnerMessage.classList.add('fade-in'); }, 1250 );
+    setTimeout( () => { computerChoiceMessage.classList.add('fade-in') }, 750);
+    setTimeout( () => { winnerMessage.classList.add('fade-in'); }, 2000 );
 
     setTimeout( () => {
         removeItem(playerChoiceMessage);
         removeItem(computerChoiceMessage);
         removeItemMedium(winnerMessage);
-    }, 5000 );
+    }, 4500 );
 }
 
 // function displayRoundWinner() {
