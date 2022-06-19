@@ -5,10 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylsheet" href="style.css">
-    <script src="javascript.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nuosu+SIL">
+    <script src="./javascript.js" defer></script>
 </head>
 <body>
+    <div id="header">
+        <div class="spacer-div">
+            <img class="logo" src="./images/rock-paper-scissors (1).png">
+        </div>
+        <h1>ROCK PAPER SCISSORS</h1>
+        <div class="spacer-div">
+            <img class="logo" src="./images/rock-paper-scissors (1).png">
+        </div> 
+    </div>
+    <div id="game-section">
+        <div id="gameplay-card">
+            <div class="card-section one">
+                <h2 id="gameplay-message" class="message small"></h2>
+            </div>
+            <div class="card-section two">
+                <button id="begin">Begin</button>
+                <!-- <h2 id="alert-message" class="message">Round 1!</h2> -->
+                <!-- <div id="button-group">
+                    <button id="rock">Rock</button>
+                    <button id="paper">Paper</button>
+                    <Button id="scissors">Scissors</Button>
+                </div> -->
+            </div>
+            <div class="card-section three">
+                <div class="score">
+                    <p id="player"></p>
+                </div>
+                <div class="score">
+                    <p id="computer"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>
