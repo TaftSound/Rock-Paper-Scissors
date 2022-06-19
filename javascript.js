@@ -110,45 +110,17 @@ beginButton.addEventListener('click', () => {
 
 
 function playRound() {
-    roundMessage = createRoundMessage(roundNumber);
+    roundMessage = createRoundMessage(`Round: ${roundNumber}`);
     setTimeout( () => {
         sectionOne.appendChild(roundMessage);
         roundMessage.classList.add('fade-in');
     }, 250 );
     setTimeout( () => { 
-        removeItemSlow(roundMessage); 
-    }, 750 );
+        removeItemMedium(roundMessage); 
+    }, 1100 );
     setTimeout( () => {
         createGameRound();
-    }, 2500 );
-}
-
-function calculateWinner() {
-    let comp = computerPlay();
-    let player = playerChoice;
-    let winnerMessage = "";
-    if ( comp === player ) {
-        ++playerScore;
-        ++computerScore;
-        winnerMessage = createGameMessage("This round is a tie!");
-    }
-    else if ( (comp === "Rock") && (player === "Scissors")
-            || (comp === "Scissors") && (player === "Paper")
-            || (comp === "Paper") && (player === "Rock") ) {
-        ++computerScore;
-        winnerMessage = createGameMessage("You lose this round!");
-    }
-    else {
-        ++playerScore;
-        winnerMessage = createGameMessage("You win this round!");
-    }
-    setTimeout( () => {
-        sectionOne.appendChild(winnerMessage);
-        winnerMessage.classList.add('fade-in');
-    }, 750 );
-    setTimeout( () => { 
-        removeItemMedium(winnerMessage) 
-    }, 1750 );
+    }, 2000 );
 }
 
 // function playGame() {
@@ -192,23 +164,60 @@ function createGameRound() {
 
 
     rockButton.addEventListener('click', () => { 
-        removeButtonGroup(rockButton, paperButton, scissorsButton);
+        removeButtonGroup(rockButton, paperButton, scissorsButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Rock";
-        calculateWinner();
+        setTimeout( () => { calculateWinner(); }, 1000);
     });
     paperButton.addEventListener('click', () => { 
-        removeButtonGroup(paperButton, rockButton, scissorsButton);
+        removeButtonGroup(paperButton, rockButton, scissorsButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Paper";
-        calculateWinner();
+        setTimeout( () => { calculateWinner(); }, 1000);
     });
     scissorsButton.addEventListener('click', () => { 
-        removeButtonGroup(scissorsButton, paperButton, rockButton);
+        removeButtonGroup(scissorsButton, paperButton, rockButton, buttonGroup);
         removeItemMedium(playMessage);
         playerChoice = "Scissors";
-        calculateWinner();
+        setTimeout( () => { calculateWinner(); }, 1000);
     });
+}
+
+function calculateWinner() {
+    
+    computerChoice = computerPlay();
+    let winnerMessage = "";
+    if ( computerChoice === playerChoice ) {
+        ++playerScore;
+        ++computerScore;
+        winnerMessage = createRoundMessage("This round is a tie!");
+    }
+    else if ( (computerChoice === "Rock") && (playerChoice === "Scissors")
+            || (computerChoice === "Scissors") && (playerChoice === "Paper")
+            || (computerChoice === "Paper") && (playerChoice === "Rock") ) {
+        ++computerScore;
+        winnerMessage = createRoundMessage("You lose this round!");
+    }
+    else {
+        ++playerScore;
+        winnerMessage = createRoundMessage("You win this round!");
+    }
+    let computerChoiceMessage = createGameMessage(`Computer: ${computerChoice}`);
+    let playerChoiceMessage = createGameMessage(`Player: ${playerChoice}`);
+    sectionOne.appendChild(playerChoiceMessage);
+    sectionOne.appendChild(computerChoiceMessage);
+    sectionTwo.appendChild(winnerMessage);
+
+    playerChoiceMessage.classList.add('fade-in');
+    // setTimeout( () => { playerChoiceMessage.classList.add('fade-in') }, 50);
+    setTimeout( () => { computerChoiceMessage.classList.add('fade-in') }, 1250);
+    setTimeout( () => { winnerMessage.classList.add('fade-in'); }, 1250 );
+
+    setTimeout( () => {
+        removeItem(playerChoiceMessage);
+        removeItem(computerChoiceMessage);
+        removeItemMedium(winnerMessage);
+    }, 5000 );
 }
 
 // function displayRoundWinner() {
@@ -219,10 +228,10 @@ function createGameRound() {
 //     setTimeout( () => {}, 550 )
 // }
 
-function createRoundMessage(number) {
+function createRoundMessage(round) {
     const roundAlertHeader = document.createElement('h2');
     roundAlertHeader.setAttribute('class', 'message');
-    roundAlertHeader.innerText = `Round: ${number}`;
+    roundAlertHeader.innerText = round;
     return roundAlertHeader;
 }
 
@@ -241,10 +250,11 @@ function createButton(id) {
     return button;
 }
 
-function removeButtonGroup(buttonClicked, buttonTwo, buttonThree) {
+function removeButtonGroup(buttonClicked, buttonTwo, buttonThree, buttonGroup) {
     removeItemMedium(buttonClicked);
     removeItem(buttonTwo);
     removeItem(buttonThree);
+    removeItemMedium(buttonGroup);
 }
 
 function removeItem(item) {
