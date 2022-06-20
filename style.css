@@ -68,7 +68,14 @@ div {
     /* box-shadow: 0 0 5px rgb(46, 46, 46); */
 }
 
-.score {
+#player.fade-in {
+    animation: fadeIn .5s;
+    font-size: 2em;
+    color:rgba(245, 245, 245, 0.534);
+}
+
+#computer.fade-in {
+    animation: fadeIn .5s;
     font-size: 2em;
     color:rgba(245, 245, 245, 0.534);
 }
